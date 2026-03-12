@@ -2,10 +2,11 @@
 
 `gbTracker` to windowsowa aplikacja tray napisana w C# / .NET 8, która działa jako licznik GB i pokazuje, ile internetu zostało na Twoich kontach u dostawców internetu mobilnego.
 
-Projekt jest przygotowany pod przyszłą obsługę kolejnych operatorów, takich jak Orange czy Plus, ale obecnie wspiera wyłącznie konta nju mobile w dwóch trybach logowania:
+Projekt jest przygotowany pod przyszłą obsługę kolejnych operatorów, takich jak Plus, a obecnie wspiera konta nju mobile i Orange w następujących trybach logowania:
 
 - `nju (subskrypcja)`
 - `nju (abonament, na kartę, internet mobilny)`
+- `orange (na kartę)`
 
 ## ✨ Najważniejsze funkcje
 
@@ -32,6 +33,10 @@ Aplikacja loguje się do API nju, pobiera grupy i produkty, a następnie sumuje 
 ### `nju (abonament, na kartę, internet mobilny)`
 
 Aplikacja loguje się przez web flow, pobiera stronę stanu konta i parsuje dostępne pakiety danych.
+
+### `orange (na kartę)`
+
+Aplikacja loguje się przez web flow Orange, a przy pierwszym logowaniu może poprosić o kod SMS i zapisanie urządzenia jako zaufanego. Dane o pakiecie internetu są następnie parsowane z widoku konta.
 
 ## 🧰 Wymagania
 
@@ -66,6 +71,7 @@ Menu `Zaloguj` zawiera:
 
 - `nju (subskrypcja)`
 - `nju (abonament, na kartę, internet mobilny)`
+- `orange (na kartę)`
 
 Obie opcje pozwalają dodawać wiele kont.
 
@@ -87,6 +93,7 @@ Menu `Tools` zawiera:
 - `Wyloguj wszystkie`
 - `Koloruj ikonki`
 - `Rozmiar cyfr w ikonkach`
+- `Rozmiar tla ikonek`
 - `Zmien kolor tekstu`
 
 ## ⚙️ Konfiguracja
@@ -103,6 +110,7 @@ Przykładowe pola:
 - `minimalLogs`
 - `colorizeIcons`
 - `iconTextSizeOffset`
+- `iconBackgroundSizeOffset`
 - `iconTextColorArgb`
 - `njuSubscriptionApiKey`
 - `userAgent`
