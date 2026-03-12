@@ -8,6 +8,8 @@ Projekt jest przygotowany pod przyszłą obsługę kolejnych operatorów, takich
 - `nju (abonament, na kartę, internet mobilny)`
 - `orange (na kartę)`
 
+<img height="386" alt="Screenshot 2026-03-12 162037" src="https://github.com/user-attachments/assets/797fc239-8fa6-4c3c-b483-559f2bb69026" />
+
 ## ✨ Najważniejsze funkcje
 
 - licznik GB w trayu Windows
