@@ -1,6 +1,6 @@
 # gbTracker
 
-`gbTracker` to windowsowa aplikacja tray napisana w C# / .NET 8, która pokazuje ile internetu zostało na kontach dostawców internetu mobilnego w Polsce.
+`gbTracker` to windowsowa aplikacja tray napisana w C# / .NET 8, która działa jako licznik GB i pokazuje, ile internetu zostało na Twoich kontach u dostawców internetu mobilnego.
 
 Projekt jest przygotowany pod przyszłą obsługę kolejnych operatorów, takich jak Orange czy Plus, ale obecnie wspiera wyłącznie konta nju mobile w dwóch trybach logowania:
 
@@ -9,19 +9,19 @@ Projekt jest przygotowany pod przyszłą obsługę kolejnych operatorów, takich
 
 ## ✨ Najważniejsze funkcje
 
+- licznik GB w trayu Windows
 - wspólny tray dla wielu kont i wielu metod logowania
-- obsługa wielu kont `subscription`
-- obsługa wielu kont `prepaid`
 - grupowanie numerów w menu według metody logowania
 - główna ikonka pokazująca łączną sumę danych dla zaznaczonych pozycji
 - dodatkowe ikonki per numer dla danych krajowych i roamingowych
 - opcjonalne kolorowanie tła ikonek na podstawie numeru telefonu
+- możliwość zmiany rozmiaru i koloru cyfr w ikonkach
 - logowanie przez standardowe okno WinForms
 - autostart z Windows
 - zapis danych logowania w Windows DPAPI
 - logi HTTP z opcją minimalnych logów i maskowania sekretów
-- automatyczne sprawdzanie `API key` dla `nju (subskrypcja)` przy starcie
-- automatyczne sprawdzanie `userAgent` przy starcie
+- automatyczne sprawdzanie aktualnego `API key` dla `nju (subskrypcja)` przy starcie
+- automatyczne sprawdzanie aktualnego `userAgent` przy starcie
 
 ## 📱 Obsługiwane typy kont
 
@@ -36,14 +36,18 @@ Aplikacja loguje się przez web flow, pobiera stronę stanu konta i parsuje dost
 ## 🧰 Wymagania
 
 - Windows 10 lub Windows 11
-- .NET SDK 8.0 lub nowszy
 
-## 🚀 Build i uruchomienie
+## 🚀 Uruchomienie
 
-```powershell
-dotnet build ".\VSCODE Workspace.sln"
-dotnet run --project ".\gbTracker\gbTracker.csproj"
-```
+`gbTracker` jest udostępniany jako gotowy skompilowany plik `.exe`.
+
+Aby uruchomić aplikację:
+
+1. pobierz paczkę z plikiem `gbTracker.exe`
+2. uruchom `gbTracker.exe`
+3. po starcie aplikacja pojawi się w zasobniku systemowym Windows
+
+Przy pierwszym uruchomieniu aplikacja tworzy własny plik konfiguracyjny i pobiera wymagane pliki konfiguracyjne z repozytorium projektu.
 
 ## 🖱️ Menu aplikacji
 
@@ -82,6 +86,8 @@ Menu `Tools` zawiera:
 - `Wyloguj konto`
 - `Wyloguj wszystkie`
 - `Koloruj ikonki`
+- `Rozmiar cyfr w ikonkach`
+- `Zmien kolor tekstu`
 
 ## ⚙️ Konfiguracja
 
@@ -96,6 +102,8 @@ Przykładowe pola:
 - `hideSecretsInLogs`
 - `minimalLogs`
 - `colorizeIcons`
+- `iconTextSizeOffset`
+- `iconTextColorArgb`
 - `njuSubscriptionApiKey`
 - `userAgent`
 - `perNumberTrayIconEnabled`
@@ -132,7 +140,3 @@ Przy starcie aplikacja sprawdza aktualne wartości:
 - `https://raw.githubusercontent.com/pio20pro-arch/gbTracker/main/user-agent.json`
 
 Jeśli pojawi się nowa wartość, lokalny config jest aktualizowany automatycznie.
-
-## 📌 Status projektu
-
-Obecnie aplikacja działa z kontami nju mobile. W kolejnych wersjach może zostać rozszerzona o obsługę kolejnych dostawców internetu mobilnego w Polsce bez przebudowy wspólnego shellu tray.
