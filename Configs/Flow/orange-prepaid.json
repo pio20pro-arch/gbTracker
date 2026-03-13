@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "publishedAt": "2026-03-13T00:00:00Z",
+  "minAppVersion": "1.5.0",
+  "providerVersion": "orange-prepaid-1",
+  "provider": "orange-prepaid",
+  "displayName": "orange (na kartę)",
+  "inputs": {
+    "login": {
+      "type": "text",
+      "label": "Login",
+      "accepts": [
+        "email",
+        "phone"
+      ]
+    },
+    "password": {
+      "type": "password",
+      "label": "Hasło"
+    },
+    "otp": {
+      "type": "otp",
+      "label": "Kod SMS"
+    }
+  },
+  "endpoints": {
+    "loginPage": {
+      "method": "GET",
+      "url": "https://www.orange.pl/twojekonto/"
+    },
+    "phoneLoginPage": {
+      "method": "GET",
+      "url": "https://www.orange.pl/twojekonto/zaloguj/numer"
+    },
+    "loginInit": {
+      "method": "POST",
+      "url": "https://www.orange.pl/twojekonto/login/init",
+      "contentType": "application/json"
+    },
+    "loginAction": {
+      "method": "POST",
+      "url": "https://www.orange.pl/twojekonto/login/action",
+      "contentType": "application/json"
+    },
+    "loginCompleted": {
+      "method": "POST",
+      "url": "https://www.orange.pl/twojekonto/login/completed",
+      "contentType": "application/json"
+    },
+    "registration": {
+      "method": "GET",
+      "url": "https://www.orange.pl/moj-orange/rejestracja"
+    },
+    "dashboard": {
+      "method": "GET",
+      "url": "https://www.orange.pl/moj-orange/uslugi-na-karte"
+    },
+    "tariff": {
+      "method": "GET",
+      "url": "https://www.orange.pl/moj-orange/ajax/waspDashTariff/init?_={{runtime.unixTimeMs}}"
+    }
+  },
+  "flows": {
+    "login": [
+      {
+        "step": "initLogin",
+        "type": "jsonPost",
+        "request": "loginInit",
+        "body": {
+          "login": "{{input.login}}"
+        }
+      },
+      {
+        "step": "submitPassword",
+        "type": "jsonPost",
+        "request": "loginAction",
+        "body": {
+          "action": "LOGIN_2FA_PASSWORD",
+          "executionId": "{{response.executionId}}",
+          "state": "{{response.state}}",
+          "login": "{{input.login}}",
+          "password": "{{input.password}}"
+        }
+      },
+      {
+        "step": "submitOtp",
+        "type": "jsonPost",
+        "request": "loginAction",
+        "body": {
+          "action": "{{runtime.otpAction}}",
+          "executionId": "{{runtime.executionId}}",
+          "state": "{{runtime.state}}",
+          "otp": "{{input.otp}}"
+        }
+      },
+      {
+        "step": "completeTrustedDevice",
+        "type": "jsonPost",
+        "request": "loginCompleted",
+        "body": {
+          "action": "ADD_DEVICE",
+          "state": "{{runtime.stateForCompletion}}",
+          "authenticationId": "{{response.authenticationId}}",
+          "deviceToken": "{{response.deviceToken}}"
+        }
+      }
+    ]
+  },
+  "parse": {
+    "expiryDate": {
+      "source": "tariffHtml",
+      "type": "regexDate",
+      "pattern": "\\b\\d{2}\\.\\d{2}\\.\\d{4}\\b",
+      "format": "dd.MM.yyyy"
+    }
+  },
+  "validity": {
+    "zeroUsageWhenExpired": true,
+    "compareWithLocalDate": true
+  },
+  "session": {
+    "persistCookies": true,
+    "persistDeviceToken": true,
+    "invalidateTrustedStateWhenUserAgentChanges": true
+  }
+}
