@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "publishedAt": "2026-03-13T00:00:00Z",
+  "minAppVersion": "1.5.0",
+  "providerVersion": "plus-subscription-sso-1",
+  "provider": "plus-subscription",
+  "displayName": "plus (konto plus / iPlus web sso)",
+  "inputs": {
+    "login": {
+      "type": "text",
+      "label": "Login"
+    },
+    "password": {
+      "type": "password",
+      "label": "Hasło"
+    },
+    "delegateId": {
+      "type": "text",
+      "label": "delegateId"
+    }
+  },
+  "endpoints": {
+    "loginPage": {
+      "method": "GET",
+      "url": "https://logowanie.plus.pl/"
+    },
+    "loginChain": {
+      "method": "POST",
+      "url": "https://logowanie.plus.pl/sso/authenticate/loginChain?delegateId={{input.delegateId}}&chainId=basic",
+      "contentType": "application/json",
+      "headers": {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    },
+    "dashboard": {
+      "method": "GET",
+      "url": "https://www.plus.pl/iplus"
+    },
+    "usage": {
+      "method": "GET",
+      "url": "https://PLACEHOLDER_PLUS_USAGE_ENDPOINT",
+      "headers": {
+        "Accept": "application/json"
+      }
+    }
+  },
+  "flows": {
+    "login": [
+      {
+        "step": "openLoginPage",
+        "type": "get",
+        "request": "loginPage"
+      },
+      {
+        "step": "submitLogin",
+        "type": "jsonPost",
+        "request": "loginChain",
+        "body": {
+          "callbacks": [
+            {
+              "type": "NameCallback",
+              "input": [
+                {
+                  "name": "IDToken1",
+                  "value": "{{input.login}}"
+                }
+              ]
+            },
+            {
+              "type": "PasswordCallback",
+              "input": [
+                {
+                  "name": "IDToken2",
+                  "value": "{{input.password}}"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "step": "openDashboard",
+        "type": "get",
+        "request": "dashboard"
+      },
+      {
+        "step": "fetchUsage",
+        "type": "get",
+        "request": "usage"
+      }
+    ]
+  },
+  "parse": {},
+  "validity": {
+    "zeroUsageWhenExpired": false,
+    "compareWithLocalDate": true
+  },
+  "session": {
+    "persistCookies": true,
+    "reuseSessionUntilInvalid": true,
+    "retryOnExpiredSession": true
+  }
+}
