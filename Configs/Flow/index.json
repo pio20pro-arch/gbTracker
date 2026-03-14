@@ -4,6 +4,7 @@
   "configs": [
     "nju-prepaid.json",
     "nju-subscription.json",
+    "plus-all.json",
     "orange-prepaid.json"
   ]
 }
