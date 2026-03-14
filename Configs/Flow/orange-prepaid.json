@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "publishedAt": "2026-03-13T00:00:00Z",
+  "publishedAt": "2026-03-14T16:30:00Z",
   "minAppVersion": "1.5.0",
-  "providerVersion": "orange-prepaid-1",
+  "providerVersion": "orange-prepaid-4",
   "provider": "orange-prepaid",
   "displayName": "orange (na kartę)",
   "inputs": {
@@ -83,6 +83,25 @@
         }
       },
       {
+        "step": "passwordCompleted",
+        "type": "branch",
+        "when": {
+          "response.requireAction": "COMPLETED"
+        },
+        "then": [
+          {
+            "step": "openRegistrationAfterPassword",
+            "type": "httpGet",
+            "request": "registration"
+          },
+          {
+            "step": "openDashboardAfterPassword",
+            "type": "httpGet",
+            "request": "dashboard"
+          }
+        ]
+      },
+      {
         "step": "submitOtp",
         "type": "jsonPost",
         "request": "loginAction",
@@ -114,6 +133,50 @@
       "format": "dd.MM.yyyy"
     }
   },
+  "pageStates": {
+    "login": {
+      "urlContains": [
+        "/twojekonto/"
+      ],
+      "containsAny": [
+        "data-test-id=\"input-login\"",
+        "Zaloguj się do Mój Orange",
+        "Zaloguj siÄ™ do MÃ³j Orange"
+      ]
+    },
+    "otp": {
+      "containsAny": [
+        "data-test-id=\"input-otp\"",
+        "Podaj kod SMS"
+      ]
+    },
+    "trustedDevice": {
+      "containsAny": [
+        "data-test-id=\"button-log-in-once\"",
+        "Zaloguj jednorazowo",
+        "Dodaj urządzenie do zaufanych",
+        "Dodaj urzadzenie do zaufanych"
+      ]
+    },
+    "portal": {
+      "urlContains": [
+        "/moj-orange/"
+      ],
+      "containsAny": [
+        "id=\"__NEXT_DATA__\"",
+        "\"page\":\"/moj-orange/uslugi-na-karte\""
+      ]
+    },
+    "usage": {
+      "containsAny": [
+        "Bonus Internetowy za doładowania",
+        "Bonus Internetowy za doÅ‚adowania",
+        "Internet w roamingu:",
+        "Orange Free na Kartę:",
+        "Orange Free na KartÄ™:"
+      ]
+    }
+  },
   "validity": {
     "zeroUsageWhenExpired": true,
     "compareWithLocalDate": true
@@ -121,6 +184,15 @@
   "session": {
     "persistCookies": true,
     "persistDeviceToken": true,
-    "invalidateTrustedStateWhenUserAgentChanges": true
+    "invalidateTrustedStateWhenUserAgentChanges": true,
+    "trustedDevice": {
+      "onInitialLogin": true,
+      "onReauth": false
+    },
+    "authenticationOutcomes": {
+      "passwordCompletedWithoutSms": "reuse-portal-session",
+      "otpCompletedWithoutTrustedDevice": "open-registration-first",
+      "otpCompletedWithTrustedDeviceFallback": "allowed"
+    }
   }
 }
