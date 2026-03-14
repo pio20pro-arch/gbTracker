@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "publishedAt": "2026-03-13T00:00:00Z",
+  "minAppVersion": "1.5.0",
+  "providerVersion": "nju-subscription-1",
+  "provider": "nju-subscription",
+  "displayName": "nju (subskrypcja)",
+  "inputs": {
+    "login": {
+      "type": "text",
+      "label": "Login"
+    },
+    "password": {
+      "type": "password",
+      "label": "Hasło"
+    }
+  },
+  "endpoints": {
+    "token": {
+      "method": "POST",
+      "url": "https://prd-iam.dopapp.pl/auth/realms/nju/protocol/openid-connect/token",
+      "contentType": "application/x-www-form-urlencoded"
+    },
+    "groups": {
+      "method": "GET",
+      "url": "https://prd-public-gateway.dopapp.pl/groups?hideEmpty=true"
+    },
+    "products": {
+      "method": "GET",
+      "url": "https://prd-public-gateway.dopapp.pl/products"
+    }
+  },
+  "flows": {
+    "token": [
+      {
+        "step": "loginPasswordToken",
+        "type": "formPost",
+        "request": "token",
+        "bodyType": "form",
+        "body": {
+          "grant_type": "password",
+          "client_id": "nju-web-app-v1",
+          "username": "{{input.login}}",
+          "password": "{{input.password}}"
+        }
+      },
+      {
+        "step": "refreshToken",
+        "type": "formPost",
+        "request": "token",
+        "bodyType": "form",
+        "body": {
+          "grant_type": "refresh_token",
+          "client_id": "nju-web-app-v1",
+          "refresh_token": "{{runtime.refreshToken}}"
+        }
+      }
+    ]
+  },
+  "parse": {},
+  "validity": {
+    "zeroUsageWhenExpired": false,
+    "compareWithLocalDate": true
+  },
+  "session": {
+    "persistCookies": false,
+    "reuseSessionUntilInvalid": true,
+    "retryOnExpiredSession": true
+  }
+}
