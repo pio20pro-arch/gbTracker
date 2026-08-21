@@ -2,12 +2,12 @@
 
 `gbTracker` to windowsowa aplikacja tray napisana w C# / .NET 8, która działa jako licznik GB i pokazuje, ile internetu zostało na Twoich kontach u dostawców internetu mobilnego.
 
-Projekt jest przygotowany pod przyszłą obsługę kolejnych operatorów, takich jak Plus, Plush, T-Mobile, a obecnie wspiera konta nju mobile i Orange w następujących trybach logowania:
+Projekt jest przygotowany pod przyszłą obsługę kolejnych operatorów, takich jak T-Mobile, Play, Mobile Vikings, itd, a obecnie wspiera konta nju mobile, Orange, Plus w następujących trybach logowania:
 
 - `nju (subskrypcja)`
 - `nju (abonament, na kartę, internet mobilny)`
 - `orange (na kartę)`
-- `plus (konto iPlus) od wersji 1.0.5`
+- `plus/plush (konto iPlus) od wersji 1.0.5`
 
 <img height="386" alt="Screenshot 2026-03-12 162037" src="https://github.com/user-attachments/assets/797fc239-8fa6-4c3c-b483-559f2bb69026" />
 
