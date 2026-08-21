@@ -7,6 +7,7 @@ Projekt jest przygotowany pod przyszłą obsługę kolejnych operatorów, takich
 - `nju (subskrypcja)`
 - `nju (abonament, na kartę, internet mobilny)`
 - `orange (na kartę)`
+- `plus (konto iPlus) od wersji 1.0.5`
 
 <img height="386" alt="Screenshot 2026-03-12 162037" src="https://github.com/user-attachments/assets/797fc239-8fa6-4c3c-b483-559f2bb69026" />
 
